@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Note Trainer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 30%;
+      background: #111;
+      color: white;
+    }
+    #note {
+      font-size: 70px;
+      margin: 20px;
+    }
+    button, input {
+      font-size: 18px;
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 8px;
+      border: none;
+    }
+    label {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="note">Press Start</div>
+
+<div>
+  <button onclick="start()">Start</button>
+  <button onclick="pause()">Pause</button>
+  <button onclick="newNote()">Next</button>
+</div>
+
+<div>
+  <label>Seconds per note:</label>
+  <input type="number" id="speed" value="3" min="1" max="10">
+</div>
+
+<div>
+  <label>
+    <input type="checkbox" id="naturalsOnly"> Naturals only (A-G)
+  </label>
+</div>
+
+<script>
+let timer = null;
+const allNotes = [
+  "A","A#","Bb","B",
+  "C","C#","Db","D",
+  "D#","Eb","E",
+  "F","F#","Gb","G",
+  "G#","Ab"
+];
+const naturalNotes = ["A","B","C","D","E","F","G"];
+function getNotes() {
+  return document.getElementById("naturalsOnly").checked
+    ? naturalNotes
+    : allNotes;
+}
+function newNote() {
+  const notes = getNotes();
+  const n = notes[Math.floor(Math.random() * notes.length)];
+  document.getElementById("note").innerText = n;
+}
+function start() {
+  const interval = document.getElementById("speed").value * 1000;
+  if (timer) clearInterval(timer);
+  newNote();
+  timer = setInterval(newNote, interval);
+}
+function pause() {
+  if (timer) clearInterval(timer);
+}
+</script>
+
+</body>
+</html>
